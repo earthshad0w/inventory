@@ -1,0 +1,131 @@
+This program will allow the user to list and edit the inventory for their guitar shop.
+
+# Python modules needed
+import csv
+import sys
+
+# Inventory csv file
+FILENAME = "inventory.csv"
+
+# Defining a python class for each item in inventory
+class Item:
+    def __init__(self, id, manufacturer, model, price, qty)
+    self.id = id
+    self.manufacturer = manufacturer 
+    self.model = model
+    self.price = price
+    self.qty = qty
+
+# Defining a funtion terminate the program
+def quit_program():
+    Terminates program
+
+# Defining a function to read the inventory csv file
+def read_items():
+    items = empty list
+    if csv file exists
+        open file to read
+        for each line
+            if length of elements in line < 5
+                continue 
+            
+            # from the first element at index 0
+            id = element[0]
+            manufacturer = element[1]
+            model = element[2]
+            price = element[3]
+            qty = element[4]
+            instantiate object and append items
+    return items
+            
+
+# Defining a funtion to write data to csv file
+def write_items(items):
+    if file exists
+        open file to write
+        write data
+
+# Defining a function to add items
+def add_item(items):
+    item id = input()
+    for item in items:
+        if item id is in inventory:
+            print item exits. Enter number of items being added.
+            qty = input
+            update item quantity
+            call write_items(items)
+    else:
+        manufacturer = input
+        model = input
+        price = input
+        qty  = input
+        instantiate item object
+        append item object to items
+        sort items alphabetically
+        call write_items(items)
+
+# Defining a function to list inventory
+def list_items(items):
+    for index, item in items:
+        print index and item per line
+    print newline
+
+# Defining a funtion to delete items
+def del_item(items):
+    found = False
+    id = input
+    for i, item in enumerate(items):
+        if item id = entered id and qty does not = 0:
+            delete item at that index
+        else if item id = entered id and qty = 0:
+            print "cannot have a negative quantity"
+        found = True
+        break
+
+    if found == False:
+        print "item not found"    
+    else:
+    call write_items(items)
+
+# Defining a function to display the menu
+def display_menu()
+    print "choose from the following"
+    print "list - list items in inventory"
+    print "add - add item to inventory"
+    print "del - delete item from inventory
+    print "exit program"
+
+# Defining a menu selection function
+def menu_selection(items)
+    while True:
+        command = input 
+        if command == list:
+            call list_items(items)
+        if command == add:
+            call add_items(items)
+        if command == del:
+            call del_item(items)
+        if command == exit:
+            call quit_program()
+
+# Defining main function
+def main():
+    print title of program
+
+if file exists
+    read_items()
+else:
+    print file does not exist
+    call quit_program()
+
+###### MAIN PROGRAM LOOP ######
+print program title
+call display_menu()
+call menu_selection(items)
+
+if the name of the program is "main":
+    main()
+
+
+
+
