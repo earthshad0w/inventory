@@ -11,17 +11,18 @@ FILENAME = "inventory.csv"
 # 
 class Item:
     def __init__(self, id, manufacturer, model, price, qty):
-    self.id = id
-    self.manufacturer = manufacturer 
-    self.model = model
-    self.price = price
-    self.qty = qty
+        self.id = id
+        self.manufacturer = manufacturer 
+        self.model = model
+        self.price = price
+        self.qty = qty
 
-    def price_validation(price):
-        pass
-    
-    def qty_validation(qty):
-        pass
+
+def get_valid_price(price):
+    pass
+
+def get_valid_qty(qty):
+    pass
         
 
 # Defining a function terminate the program
@@ -72,7 +73,8 @@ def add_item(items):
 
     for item in items:
         if item.id == item_id:
-            update item quantity
+            ask user how many items to add
+            add that quantity to item.qty
             found = True
             write_items(items)
             return
@@ -80,8 +82,8 @@ def add_item(items):
     if found == False:
         manufacturer = input
         model = input
-        price = input
-        qty = input
+        price = get_valid_price()
+        qty = get_valid_qty()
         create Item object using id, manufacturer, model, price, qty
         append Item object to items list
         sort items alphabetically
@@ -89,7 +91,7 @@ def add_item(items):
 
 # Defining a function to list inventory
 def list_items(items):
-    for index, item in items:
+    for index, item in enumerate(items):
         print index and item per line
     print newline
 
@@ -102,7 +104,7 @@ def del_item(items):
         if item.id == item_id:
             found = True
 
-            qty_to_remove = get valid int
+            qty_to_remove = get_valid_qty
 
             if qty_to_remove > item.qty:
                 print "not enough items in stock"
@@ -121,7 +123,7 @@ def display_menu():
     print "choose from the following"
     print "list - list items in inventory"
     print "add - add item to inventory"
-    print "del - delete item from inventory
+    print "del - delete item from inventory"
     print "exit program"
 
 
@@ -129,11 +131,7 @@ def display_menu():
 def main():
     print title of program
 
-    if file exists
-        items = read_items()
-    else:
-        print file does not exist
-        call quit_program()
+    items = read_items()
 
     ###### MAIN PROGRAM ######
     print program title
@@ -145,13 +143,13 @@ def main():
         if command == list:
             call list_items(items)
         elif command == add:
-            call add_items(items)
+            call add_item(items)
         elif command == del:
             call del_item(items)
         elif command == exit:
             call quit_program()
         else:
-        print "invalid command"
+            print "invalid command"
 
 
 if the name of the program is "main":
