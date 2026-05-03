@@ -8,15 +8,23 @@ import sys
 FILENAME = "inventory.csv"
 
 # Defining a python class for each item in inventory
+# 
 class Item:
-    def __init__(self, id, manufacturer, model, price, qty)
+    def __init__(self, id, manufacturer, model, price, qty):
     self.id = id
     self.manufacturer = manufacturer 
     self.model = model
     self.price = price
     self.qty = qty
 
-# Defining a funtion terminate the program
+    def price_validation(price):
+        pass
+    
+    def qty_validation(qty):
+        pass
+        
+
+# Defining a function terminate the program
 def quit_program():
     Terminates program
 
@@ -24,45 +32,60 @@ def quit_program():
 def read_items():
     items = empty list
     if csv file exists
-        open file to read
-        for each line
-            if length of elements in line < 5
+        open file for reading
+        # Create reader object from csv module
+        reader = csv reader object
+        for each row in reader
+            if length of elements in row < 5
                 continue 
             
-            # from the first element at index 0
-            id = element[0]
-            manufacturer = element[1]
-            model = element[2]
-            price = element[3]
-            qty = element[4]
-            instantiate object and append items
-    return items
+            # from the first element at index 0 in row
+            id = row[0]
+            manufacturer = row[1]
+            model = row[2]
+            price = row[3] <- convert to float
+            qty = row[4] <- convert to int
+            create Item object using id, manufacturer, model, price, qty
+            append Item object to items list
+        return items
+    else:
+        return empty items list
             
 
 # Defining a funtion to write data to csv file
 def write_items(items):
-    if file exists
-        open file to write
-        write data
+    open file for writing
+
+    writer = csv writer object
+    for each item in items:
+        create row list from item attributes
+            [item.id, item.manufacturer, item.model, item.price, item.qty]        
+        write row to csv
+    close file
+
+
 
 # Defining a function to add items
 def add_item(items):
-    item id = input()
+    found = False
+    item_id = input()
+
     for item in items:
-        if item id is in inventory:
-            print item exits. Enter number of items being added.
-            qty = input
+        if item.id == item_id:
             update item quantity
-            call write_items(items)
-    else:
+            found = True
+            write_items(items)
+            return
+
+    if found == False:
         manufacturer = input
         model = input
         price = input
-        qty  = input
-        instantiate item object
-        append item object to items
+        qty = input
+        create Item object using id, manufacturer, model, price, qty
+        append Item object to items list
         sort items alphabetically
-        call write_items(items)
+        write_items(items)
 
 # Defining a function to list inventory
 def list_items(items):
@@ -70,58 +93,66 @@ def list_items(items):
         print index and item per line
     print newline
 
-# Defining a funtion to delete items
+# Defining a funtion to lower quantity of items if items quantity is greater than 0
 def del_item(items):
     found = False
-    id = input
-    for i, item in enumerate(items):
-        if item id = entered id and qty does not = 0:
-            delete item at that index
-        else if item id = entered id and qty = 0:
-            print "cannot have a negative quantity"
-        found = True
-        break
+    item_id = input
+
+    for item in items:
+        if item.id == item_id:
+            found = True
+
+            qty_to_remove = get valid int
+
+            if qty_to_remove > item.qty:
+                print "not enough items in stock"
+
+            else:
+                subtract qty_to_remove from item.qty
+                write_items(items)
+
+            break
 
     if found == False:
-        print "item not found"    
-    else:
-    call write_items(items)
+        print "item not found"
 
 # Defining a function to display the menu
-def display_menu()
+def display_menu():
     print "choose from the following"
     print "list - list items in inventory"
     print "add - add item to inventory"
     print "del - delete item from inventory
     print "exit program"
 
-# Defining a menu selection function
-def menu_selection(items)
-    while True:
-        command = input 
-        if command == list:
-            call list_items(items)
-        if command == add:
-            call add_items(items)
-        if command == del:
-            call del_item(items)
-        if command == exit:
-            call quit_program()
 
 # Defining main function
 def main():
     print title of program
 
-if file exists
-    read_items()
-else:
-    print file does not exist
-    call quit_program()
+    if file exists
+        items = read_items()
+    else:
+        print file does not exist
+        call quit_program()
 
-###### MAIN PROGRAM LOOP ######
-print program title
-call display_menu()
-call menu_selection(items)
+    ###### MAIN PROGRAM ######
+    print program title
+
+    # Using a while loop for menu selection
+    while True:
+        call display_menu()
+        command = input 
+        if command == list:
+            call list_items(items)
+        elif command == add:
+            call add_items(items)
+        elif command == del:
+            call del_item(items)
+        elif command == exit:
+            call quit_program()
+        else:
+        print "invalid command"
+
 
 if the name of the program is "main":
     main()
