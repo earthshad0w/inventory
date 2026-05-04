@@ -16,6 +16,10 @@ class Item:
         self.price = price
         self.qty = qty
 
+# Defining a function terminate the program
+def quit_program():
+    Terminates program
+
 # Defining a function to validate price for item
 def get_valid_price():
     while True:
@@ -43,9 +47,7 @@ def get_valid_quantity():
         except ValueError:
             print "Invalid input. Please enter a valid quantity."
 
-# Defining a function terminate the program
-def quit_program():
-    Terminates program
+
 
 
 # Defining a function to read the inventory csv file
@@ -72,8 +74,6 @@ def read_items():
             append Item object to items list
 
         return items
-    else:
-        return empty items list
 
 
 # Defining a funtion to write data to csv file
@@ -108,7 +108,7 @@ def add_item(items):
         model = input
         price = get_valid_price()
         qty = get_valid_qty()
-        create Item object using id, manufacturer, model, price, qty
+        instantiate Item object using id, manufacturer, model, price, qty
         append Item object to items list
         sort items alphabetically
         write_items(items)

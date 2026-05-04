@@ -5,11 +5,6 @@ import sys
 # Inventory csv file
 FILENAME = "inventory.csv"
 
-# Defining a function terminate the program
-def quit_program():
-    print("Quitting...")
-    sys.exit()
-
 # Defining a class for each item in inventory
 class Item:
     def __init__(self, id, manufacturer, model, price, qty):
@@ -19,73 +14,110 @@ class Item:
         self.price = price
         self.qty = qty
 
+# Defining a function terminate the program
+def quit_program():
+    print("Quitting...")
+    sys.exit()
+
+# Defining a function to validate price for item
+# def get_valid_price():
+#     while True:
+#         price = input from user
+#         try:
+#             convert input to a float
+#             return value
+
+#         except ValueError:
+#             print "Invalid input. Please enter a vaild price."
+
+
+# def get_valid_quantity():
+#     while True:
+#         qty_input = input()
+
+#         try:
+#             qty = convert qty_input to int
+
+#             if qty < 0:
+#                 print "Quantity must be non-negative"
+#             else:
+#                 return qty
+
+#         except ValueError:
+#             print "Invalid input. Please enter a valid quantity."
+
+
+
 # Defining a function to read the inventory csv file
 def read_items():
     # if csv file exists, open file for reading
     try:
         items = []
         # Read from file and create reader object from csv module
-        with open("inventory.csv", "r") as f:
+        with open(FILENAME, "r", newline="") as f:
             reader = csv.reader(f)
-            for row in reader:
+            for row in reader: # only populates 
                 if len(row) < 5:
                     continue
-
+                # assign variables
                 id = row[0]
                 manufacturer = row[1]
                 model = row[2]
-                price = row[3]
-                qty = row[4]
+                price = float(row[3])
+                qty = int(row[4])
 
-                # create Item object using id, manufacturer, model, price, qty and append to items
+                # Instantiate Item object using id, manufacturer, model, price, qty and append to items
                 items.append(Item(id, manufacturer, model, price, qty))
+                # Sort items alphabetically by manufacturer
+                items.sort(key=lambda item: item.manufacturer)
             return items
 
     except FileNotFoundError:
         print(f"Could not find {FILENAME} file.")
         quit_program()
+    except Exception as e:
+        print(type(e), e)
+        quit_program()
 
-
-    # reader = csv reader object
-
-    # for each row in reader
-    #     if length of elements in row < 5
-    #         continue
-
-        # from the first element at index 0 in row
-        
-
-#     return items
-# else:
-#     return empty items list
-
+def write_items(items):
+    # open file for writing
+    try:
+        with open(FILENAME, "w", newline="") as f:
+            writer = csv.writer(f)
+            # Converting object into list and then writing row
+            for item in items:
+                row = [item.id, item.manufacturer, item.model, item.price, item.qty]
+                writer.writerow(row)
+    except Exception as e:
+        print(type(e), e)
+        quit_program()
 
 
 # Defining a function to list inventory
 def list_items(items):
 
-    # Print a table of the inventory for pretty formatting
-    print("Inventory")
+    print("Inventory Program\n" + ("-" * 80))
+
     print(
-        "Item I.D.".ljust(10) + "  " +
+        "Item I.D.".ljust(12) +
         "Manufacturer".ljust(20) +
         "Model".ljust(20) +
-        "Price".ljust(15) +
-        "Quantity".ljust(10)
+        "Price".rjust(10) +
+        "Qty".rjust(8)
     )
-    print("-" * 75)
 
-    # Printing item per line
+    print("-" * 80)
+
     for item in items:
         print(
-            item.id.ljust(10) +
+            item.id.ljust(12) +
             item.manufacturer.ljust(20) +
             item.model.ljust(20) +
-            item.price.ljust(15) +
-            item.qty.ljust(10)
+            f"${item.price:.2f}".rjust(10) +
+            str(item.qty).rjust(8)
         )
-    print()
 
+    print()
 
 
 # Defining a function to display the menu
@@ -117,7 +149,7 @@ def main():
         #     add_item(items)
         # elif command == del:
         #     del_item(items)
-        elif command == exit:
+        elif command == "exit":
             quit_program()
         else:
             print("Invalid command.")
