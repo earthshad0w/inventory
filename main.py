@@ -1,4 +1,9 @@
-#This program will allow its user to list and edit the inventory for their guitar shop.
+# Inventory Management Program
+# Allows user to:
+# - View inventory
+# - Add new items or update existing ones
+# - Remove quantity from items
+# Data is stored in a CSV file and loaded into memory as Item objects
 import csv
 import sys
 
@@ -23,7 +28,11 @@ def quit_program():
 def get_valid_price():
     while True:
         try:
-            return float(input("Enter item price: "))
+            price = float(input("Enter item price: "))
+            if price < 0:
+                print("Price must be non-negative")
+            else:
+                return price
         except ValueError:
             print( "Invalid input. Please enter a vaild price.")
 
@@ -51,7 +60,7 @@ def read_items():
         with open(FILENAME, "r", newline="") as f:
             reader = csv.reader(f)
             for row in reader: 
-                # guard against missing info by checking length of row
+                # Omit rows with any missing fields
                 if len(row) < 5:
                     continue
                 # Assign variables for each element per row
@@ -63,8 +72,8 @@ def read_items():
 
                 # Instantiate Item object using id, manufacturer, model, price, qty and append to items
                 items.append(Item(id, manufacturer, model, price, qty))
-                # Sort items alphabetically by manufacturer
-                items.sort(key=lambda item: item.manufacturer)
+            # Sort items alphabetically by manufacturer
+            items.sort(key=lambda item: item.manufacturer)
             return items
 
     except FileNotFoundError:
@@ -118,15 +127,12 @@ def del_item(items):
 
     for item in items:
         if item.id == item_id:
-            found = True
-
             qty_to_remove = get_valid_quantity()
-
-            if (item.qty - qty_to_remove) < item.qty:
+            if qty_to_remove > item.qty:
                 print("Not enough items in stock.")
             else:
-                # print(repr(item))
                 item.qty -= qty_to_remove
+                found = True
                 write_items(items)
             break
     
