@@ -1,8 +1,8 @@
-STRAT-001,Fender,Stratocaster,1200.00,3
-LP-STD-002,Gibson,Les Paul Standard,1800.00,2
-RG550-003,Ibanez,RG550,999.99,5
-PRS-C24-004,PRS,Custom 24,2500.00,1
-PAC112-005,Yamaha,Pacifica 112V,299.99,10
-SG-STD-006,Epiphone,SG Standard,499.99,4
-JS22-007,Jackson,Dinky JS22,199.99,7
+SG-STD-006,Epiphone,SG Standard,499.99,8
+STRAT-001,Fender,Stratocaster,1200.0,3
+LP-STD-002,Gibson,Les Paul Standard,1800.0,2
 GRETSCH-008,Gretsch,Electromatic,899.99,2
+RG550-003,Ibanez,RG550,999.99,5
+JS22-007,Jackson,Dinky JS22,199.99,7
+PRS-C24-004,PRS,Custom 24,2500.0,1
+PAC112-005,Yamaha,Pacifica 112V,299.99,10

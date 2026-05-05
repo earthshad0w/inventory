@@ -91,18 +91,18 @@ def write_items(items):
 
 
 # Defining a function to add items
-def add_item(items):
+def add_item(items): 
     found = False
     item_id = input() <- convert to uppercase
-
+    # Check if item id is in inventory. Update quantity if True
     for item in items:
         if item.id == item_id:
             ask user how many items to add
-            add that quantity to item.qty
+            qty = get_valid_qty()
             found = True
             write_items(items)
             return
-
+    # If item is not found, prompt user to add the rest of the details
     if found == False:
         manufacturer = input
         model = input

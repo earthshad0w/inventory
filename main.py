@@ -2,7 +2,7 @@
 import csv
 import sys
 
-# Inventory csv file
+# Inventory csv file constant
 FILENAME = "inventory.csv"
 
 # Defining a class for each item in inventory
@@ -19,32 +19,26 @@ def quit_program():
     print("Quitting...")
     sys.exit()
 
-# Defining a function to validate price for item
-# def get_valid_price():
-#     while True:
-#         price = input from user
-#         try:
-#             convert input to a float
-#             return value
+# Defining a function to validate user input for the price for item
+def get_valid_price():
+    while True:
+        try:
+            return float(input("Enter item price: "))
+        except ValueError:
+            print( "Invalid input. Please enter a vaild price.")
 
-#         except ValueError:
-#             print "Invalid input. Please enter a vaild price."
+# Defining a function to validate user input for the item quantity 
+def get_valid_quantity():
+    while True:
+        try:
+            qty = int(input("Enter quantity: "))
+            if qty < 0:
+                print("Quantity must be non-negative")
+            else:
+                return qty
 
-
-# def get_valid_quantity():
-#     while True:
-#         qty_input = input()
-
-#         try:
-#             qty = convert qty_input to int
-
-#             if qty < 0:
-#                 print "Quantity must be non-negative"
-#             else:
-#                 return qty
-
-#         except ValueError:
-#             print "Invalid input. Please enter a valid quantity."
+        except ValueError:
+            print("Invalid input. Please enter a valid quantity.")
 
 
 
@@ -56,10 +50,11 @@ def read_items():
         # Read from file and create reader object from csv module
         with open(FILENAME, "r", newline="") as f:
             reader = csv.reader(f)
-            for row in reader: # only populates 
+            for row in reader: 
+                # guard against missing info by checking length of row
                 if len(row) < 5:
                     continue
-                # assign variables
+                # Assign variables for each element per row
                 id = row[0]
                 manufacturer = row[1]
                 model = row[2]
@@ -92,6 +87,51 @@ def write_items(items):
         print(type(e), e)
         quit_program()
 
+# Defining a function to add items
+def add_items(items):
+    found = False
+    item_id = input("Enter item ID: ").upper()
+    # Check if item id is in inventory. Update quantity if True
+    for item in items:
+        if item.id == item_id:
+            qty_to_add = get_valid_quantity()
+            item.qty += qty_to_add
+            found = True
+            write_items(items)
+            return
+    # If item is not found, prompt the user to add the rest of the details and store in variables
+    if found == False:
+        manufacturer = input("Enter manufacturer: ")
+        model = input("Enter model: ")
+        price = get_valid_price()
+        qty = get_valid_quantity()
+        # Instantiating Item object using id, manufacturer, model, price, qty and appending to items
+        items.append(Item(item_id, manufacturer, model, price, qty))
+        # Sorting alphabetically by manufacturer
+        items.sort(key=lambda item: item.manufacturer)
+        write_items(items)
+
+# Defining a funtion to lower quantity of items if items quantity is greater than 0
+def del_item(items):
+    found = False
+    item_id = input("Enter item ID: ")
+
+    for item in items:
+        if item.id == item_id:
+            found = True
+
+            qty_to_remove = get_valid_quantity()
+
+            if (item.qty - qty_to_remove) < item.qty:
+                print("Not enough items in stock.")
+            else:
+                # print(repr(item))
+                item.qty -= qty_to_remove
+                write_items(items)
+            break
+    
+    if found == False:
+        print("Item not found.")
 
 # Defining a function to list inventory
 def list_items(items):
@@ -99,7 +139,7 @@ def list_items(items):
     print("Inventory Program\n" + ("-" * 80))
 
     print(
-        "Item I.D.".ljust(12) +
+        "Item ID".ljust(12) +
         "Manufacturer".ljust(20) +
         "Model".ljust(20) +
         "Price".rjust(10) +
@@ -132,10 +172,9 @@ def display_menu():
 
 # Defining main function
 def main():
-
+    # Reading items from FILENAME
     items = read_items()
 
-    ###### MAIN PROGRAM ######
     print("Inventory Program")
 
     # Using a while loop for menu selection
@@ -145,15 +184,15 @@ def main():
 
         if command == "list":
             list_items(items)
-        # elif command == add:
-        #     add_item(items)
-        # elif command == del:
-        #     del_item(items)
+        elif command == "add":
+            add_items(items)
+        elif command == "del":
+            del_item(items)
         elif command == "exit":
             quit_program()
         else:
             print("Invalid command.")
 
-# Program entry
+# Program entry point
 if __name__ == "__main__":
     main()
